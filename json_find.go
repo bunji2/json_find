@@ -5,42 +5,52 @@ import (
 	"strings"
 )
 
-// json ツリーから特定のノードを取り出す。
-// #N --- data[N]
-// .X --- data.X
-// Example
-// data = [
+// This function finds the node that matches pattern from json tree.
+// json ツリーから pattern に該当するノードを見つける関数
+// params:
+//   json_tree --- json tree
+//   pattern --- see following.
+// pattern := pat+
+// pat := #N | .X
+//   #N --- json_tree[N]
+//   .X --- json_tree.X
+// Example:
+// json_tree = [
 //    {"Name": "Platypus", "Order": "Monotremata"},
 //    {"Name": "Quoll",    "Order": "Dasyuromorphia"}
 // ]
-// json_find(data, "#0.Name") ==> ("Platypus", true)
-// json_find(data, "#1.Order") ==> ("Dasyuromorphia", true)
+// json_find(json_tree, "#0.Name") ==> ("Platypus", true)
+// json_find(json_tree, "#1.Order") ==> ("Dasyuromorphia", true)
+// json_find(json_tree, "#2.Name") ==> ("", false)
 
-func json_find(data interface{}, path string) (r interface{}, ok bool) {
+func json_find(json_tree interface{}, path string) (r interface{}, ok bool) {
 	p := split_path(path)
 	//fmt.Println("path =", p)
-	n := data
+	n := json_tree
 	for _, x := range p {
 		//fmt.Println("x =", x, "x[0] =", string(x[0]))
 		switch x[0] {
 		case '#':
 			i, e := strconv.Atoi(x[1:])
-			if e == nil {
-				//fmt.Printf("#%d\n", i)
-				q, ok2 := elem(n, i)
-				if !ok2 {
-					return
-				}
-				n = q
+			if e != nil {
+				return
 			}
+			//fmt.Printf("#%d\n", i)
+			r, ok = elem(n, i)
+			if !ok {
+				return
+			}
+			ok = false
+			n = r
 		case '.':
 			name := x[1:]
 			//fmt.Printf(".%s\n", name)
-			q, ok2 := prop(n, name)
-			if !ok2 {
+			r, ok = prop(n, name)
+			if !ok {
 				return
 			}
-			n = q
+			ok = false
+			n = r
 		default:
 			return
 		}
@@ -61,14 +71,6 @@ func elem(n interface{}, i int) (r interface{}, ok bool) {
 		return
 	}
 	r = t[i]
-	/*
-		switch n.(type) {
-		case []interface{}:
-			ok = true
-			r = n.([]interface{})[i]
-			return
-		}
-	*/
 	return
 }
 
@@ -80,14 +82,6 @@ func prop(n interface{}, name string) (r interface{}, ok bool) {
 	}
 	ok = false
 	r, ok = t[name]
-	/*
-		switch n.(type) {
-		case map[string]interface{}:
-			ok = true
-			r, ok = n.(map[string]interface{})[name]
-			return
-		}
-	*/
 	return
 }
 
