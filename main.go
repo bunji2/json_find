@@ -34,17 +34,17 @@ func run() int {
 		return 2
 	}
 
-	var data interface{}
-	if err = json.Unmarshal(blob, &data); err != nil {
+	var json_tree interface{}
+	if err = json.Unmarshal(blob, &json_tree); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return 2
 	}
 
-	//	fmt.Println("data#0.Name = ", data.([]interface{})[0].(map[string]interface{})["Name"].(string))
+	//	fmt.Println("json_tree#0.Name = ", json_tree.([]interface{})[0].(map[string]interface{})["Name"].(string))
 
 	//fmt.Println(read_path1("#0.Name"))
-	//	fmt.Println(json_find(data, "#0.Name"))
-	value, ok := json_find(data, pattern)
+	//	fmt.Println(json_find(json_tree, "#0.Name"))
+	value, ok := json_find(json_tree, pattern)
 	if !ok {
 		fmt.Fprintln(os.Stderr, "(not found)")
 		return 2
@@ -52,42 +52,3 @@ func run() int {
 	fmt.Println(value)
 	return 0
 }
-
-/*
-func run() int {
-	if len(os.Args) < 2 {
-		fmt.Fprintf(os.Stderr, Usage, os.Args[0])
-		return 1
-	}
-
-	filepath := os.Args[1]
-
-	var err error
-	var blob []byte
-	if blob, err = ioutil.ReadFile(filepath); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return 2
-	}
-
-	var data interface{}
-	if err = json.Unmarshal(blob, &data); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return 2
-	}
-
-	for _, obj := range data.([]interface{}) {
-		o := obj.(map[string]interface{})
-		for k, v := range o {
-			v, _ = v.(string)
-			fmt.Println(k, v)
-		}
-	}
-
-	fmt.Println("data#0.Name = ", data.([]interface{})[0].(map[string]interface{})["Name"].(string))
-
-	//fmt.Println(read_path1("#0.Name"))
-	fmt.Println(json_find(data, "#0.Name"))
-	fmt.Println(json_find(data, "#1.Order"))
-	return 0
-}
-*/
