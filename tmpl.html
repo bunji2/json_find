@@ -1,0 +1,17 @@
+<table>
+<tr>
+<td>title</td>
+<td>path</td>
+</tr>
+
+{{ range $j, $r := .Report }}
+{{ range $i, $d := $r.Detail }}
+<tr>
+{{ if eq $i 0 }}
+<td rowspan="{{ $r.Total }}">{{ $r.Title }}</td>
+{{ end }}
+<td>{{ $r.From }} -> {{ $r.To }}</td>
+</tr>
+{{ end }}
+{{ end }}
+</table>
