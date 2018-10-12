@@ -1,0 +1,59 @@
+report.json out.html
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>レポートサンプル</title>
+</head>
+<body>
+<b>レポートサンプル</b>
+<center>
+
+<table border="1" cellspacing="0" cellpadding="10">
+<tr bgcolor="skyblue">
+<td align="center" nowrap="nowrap">想定攻撃</td>
+<td align="center" nowrap="nowrap">概要</td>
+<td align="center" nowrap="nowrap">該当区間数</td>
+<td align="center" nowrap="nowrap">問題区間数(%)</td>
+<td align="center" nowrap="nowrap">区間</td>
+<td align="center" nowrap="nowrap">疎通結果</td>
+<td align="center" nowrap="nowrap">スキャン結果</td>
+</tr>
+
+<tr valign="top">
+
+<td align="left" rowspan="2">グローバルIPへのアクセス</td>
+<td align="left" rowspan="2">グローバルＩＰへのアクセスの場合）「グローバルＩＰを持つ機器に対するインターネットからの任意の攻撃</td>
+<td align="center" rowspan="2">2</td>
+
+<td align="center" rowspan="2" bgcolor="red">1</td>
+
+
+<td align="center" nowrap="nowrap">192.168.A.B → 192.168.A.C</td>
+<td align="center">OK</td>
+<td align="center">NG</td>
+</tr>
+
+<tr valign="top">
+
+<td align="center" nowrap="nowrap">192.168.X.Y → 192.168.X.Z</td>
+<td align="center">OK</td>
+<td align="center">OK</td>
+</tr>
+
+<tr valign="top">
+
+<td align="left" rowspan="1">サービスへのアクセス</td>
+<td align="left" rowspan="1">サービスを提供する機器への各種攻撃</td>
+<td align="center" rowspan="1">1</td>
+
+<td align="center" rowspan="1">0</td>
+
+
+<td align="center" nowrap="nowrap">192.168.1.2 → 192.168.1.3</td>
+<td align="center">OK</td>
+<td align="center">OK</td>
+</tr>
+
+</table>
+</body>
+</html>
