@@ -1,4 +1,4 @@
-package report
+package path
 
 import (
 	"encoding/json"
@@ -9,37 +9,19 @@ import (
 	"os"
 )
 
-type reports_data struct {
-	Reports []report_data `json:"reports"`
+type patterns_data struct {
+	Patterns []pattern_data `json:"patterns"`
 }
 
-type report_data struct {
-	Assume  string        `json:"assume"`
-	Note    string        `json:"note"`
-	Summary summary_data  `json:"summary"`
-	Details []detail_data `json:"detail"`
-}
-
-type summary_data struct {
-	Total int `json:"total"`
-	Ng    int `json:"ng"`
-	Rate  int `json:"rate"`
-}
-
-type detail_data struct {
-	Route         route_data  `json:"route"`
-	Communication result_data `json:"communication"`
-	Vulnerability result_data `json:"vulnerability_result"`
+type pattern_data struct {
+	Assume string       `json:"assume"`
+	Note   string       `json:"note"`
+	Routes []route_data `json:"routes"`
 }
 
 type route_data struct {
 	From string `json:"from"`
 	To   string `json:"to"`
-}
-
-type result_data struct {
-	Result string `json:"result"`
-	Report string `json:"report"`
 }
 
 var tpl *template.Template
@@ -50,14 +32,12 @@ func Init(template_file string) (e error) {
 }
 
 func Usage() string {
-	return "Usage: %s report template report.json out.html\n"
+	return "Usage: %s path template file.json out.html\n"
 }
 
 func Process(args []string) (e error) {
-
 	if len(args) < 3 {
-		e = errors.New("command report: too fiew arguments")
-		return
+		return errors.New("command path: too fiew arguments")
 	}
 
 	templ_file := args[0]
@@ -82,7 +62,7 @@ func Process(args []string) (e error) {
 
 func Write(w io.Writer, infile string) (e error) {
 	if tpl == nil {
-		e = errors.New("command report: no template.")
+		e = errors.New("command path: no template.")
 		return
 	}
 
@@ -91,7 +71,7 @@ func Write(w io.Writer, infile string) (e error) {
 		return
 	}
 
-	var json_tree reports_data
+	var json_tree patterns_data
 	if e = json.Unmarshal(blob, &json_tree); e != nil {
 		return
 	}
