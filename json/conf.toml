@@ -1,5 +1,0 @@
-report_dir = "var\\reports"
-path_dir = "var\\paths"
-port=":80"
-report_tmpl = "var\\tmpls\\report.tmpl"
-path_tmpl = "var\\tmpls\\path.tmpl"
